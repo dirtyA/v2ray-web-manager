@@ -7,7 +7,7 @@
  * 公告管理
  * 分权限
  
- v2ray-web-manager 在原有的 tls+ws+vemss+v2ray 的基础上，增强了流量、账号的管理。
+ v2ray-web-manager 在原有的 tls+ws+vemss+v2ray 的基础上，增强了流量、账号的管理等功能。
  
  ## 简要视图
  服务器配置
@@ -46,7 +46,7 @@
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
               } 
       ```
-   2. 从[releases页面](https://github.com/master-coder-ll/v2ray-web-manager/releases) 下载web 的zip.解压到/var/www/admin
+   2. 从[releases页面](https://github.com/master-coder-ll/v2ray-web-manager/releases) 下载dist.zip解压到/var/www/admin
   #### java部署
   ##### 系统要求
    * java8 以上
@@ -121,7 +121,7 @@
   
   ## 参数说明
   ### 服务器配置参数
-   1.  访问域名 如：test.com ,v2ray客户端限制的名称，可以是域名/IP
+   1.  访问域名 如：test.com ,v2ray客户端显示的名称，可以是域名/IP
     
    2. 访问端口  https tls ->443 ,或者其他80 etc
    
