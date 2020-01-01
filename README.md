@@ -47,6 +47,8 @@
               } 
       ```
    2. 从[releases页面](https://github.com/master-coder-ll/v2ray-web-manager/releases) 下载dist.zip解压到/var/www/admin
+  
+   3. 重新加载nginx  
   #### java部署
   ##### 系统要求
    * java8 以上
