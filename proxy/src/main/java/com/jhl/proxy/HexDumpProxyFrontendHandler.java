@@ -4,6 +4,7 @@ import com.jhl.TrafficController.TrafficController;
 import com.jhl.cache.FlowStatQueue;
 import com.jhl.cache.ProxyAccountCache;
 import com.jhl.config.ProxyConfig;
+import com.jhl.pojo.ComparableFlowStat;
 import com.ljh.common.model.FlowStat;
 import com.ljh.common.model.ProxyAccount;
 import io.netty.bootstrap.Bootstrap;
@@ -17,6 +18,7 @@ import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
@@ -33,8 +35,8 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
     private Channel outboundChannel;
     private String accountNo;
     private ProxyAccountCache proxyAccountCache;
-    private final String HOST = "HOST";
-
+    private static final String HOST = "HOST";
+    private ProxyAccount proxyAccount;
     public HexDumpProxyFrontendHandler(ProxyConfig proxyConfig, TrafficController trafficController, ProxyAccountCache proxyAccountCache) {
         this.proxyConfig = proxyConfig;
         this.trafficController = trafficController;
@@ -43,7 +45,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        log.info("active");
+        log.debug("active");
         ctx.read();
     }
 
@@ -110,7 +112,7 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
             log.info("当前连接数account:{},{}", accountNo, connections);
 
             isHandshaking = false;
-            ProxyAccount proxyAccount = proxyAccountCache.get(accountNo);
+             proxyAccount = proxyAccountCache.get(accountNo);
             if (proxyAccount == null) {
                 log.error("获取不到账号");
                 ReferenceCountUtil.release(HandshakeByteBuf);
@@ -215,21 +217,26 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
                 //释放 流量控制类
                 if (globalTrafficShapingHandler != null) {
                     TrafficCounter trafficCounter = globalTrafficShapingHandler.trafficCounter();
-                    ProxyAccount proxyAccount = proxyAccountCache.get(accountNo);
-                    if (proxyAccount == null) {
+                   /* if (proxyAccount == null) {
                         log.warn("断开连接时候获取不到PA,【原因猜测】account已经不可用");
                         trafficController.releaseGroupGlobalTrafficShapingHandler(accountNo);
                         return;
-                    }
-                    Integer accountId = proxyAccount.getAccountId();
+                    }*/
+                 //   Integer accountId = proxyAccount.getAccountId();
                     long writtenBytes = trafficCounter.cumulativeWrittenBytes();
                     long readBytes = trafficCounter.cumulativeReadBytes();
                     //统计流量
                     if (!StringUtils.isEmpty(accountNo)) {
-                        FlowStatQueue.addQueue(new FlowStat(accountNo, writtenBytes + readBytes, 0, UUID.randomUUID().toString()));
+                        ComparableFlowStat comparableFlowStat = new ComparableFlowStat();
+                        comparableFlowStat.setAccountNo(accountNo);
+                        comparableFlowStat.setFailureTimes(0);
+                        comparableFlowStat.setUsed(writtenBytes+readBytes);
+                        comparableFlowStat.setNextTime(0);
+                        comparableFlowStat.setUniqueId(UUID.randomUUID().toString());
+                        FlowStatQueue.addQueue(comparableFlowStat);
                     }
 
-                    log.info("账号:{},id:{},完全断开连接。。", accountNo, accountId);
+                    log.info("账号:{},完全断开连接。。", accountNo);
                     log.info("当前{},累计写字节:{}", accountNo, writtenBytes);
                     log.info("当前{},累计读字节:{}", accountNo, readBytes);
                 }
@@ -241,7 +248,8 @@ public class HexDumpProxyFrontendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        log.error("exceptionCaught:{}", cause);
+        if(! (cause instanceof IOException))  log.error("exceptionCaught:", cause);
+
         closeOnFlush(ctx.channel());
     }
 
