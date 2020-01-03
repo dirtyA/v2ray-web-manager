@@ -119,6 +119,19 @@
                             --spring.config.location=[配置文件所在位置如：/opt/jar/proxy.properties] > /dev/null 2>&1 &`
        
 
+ ### 从编译开始
+ 
+ 从git下载源码
+ 1. java 编译
+    * 依赖java环境:java8+,maven3+
+    * 执行 mvn clean install -Dmaven.test.skip=true
+    * 各子项目 `target` 目录为编译好的jar包
+ 2. web端编译
+    * 环境 nodejs ,vue环境
+    * `cd web/ `  
+    * npm run build:prod
+    * `web/dist/`目录下为输出文件
+ 3. 部署 参考上面
  
   
   ## 参数说明
