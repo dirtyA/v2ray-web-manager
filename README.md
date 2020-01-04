@@ -9,6 +9,8 @@
  
  v2ray-web-manager 在原有的 tls+ws+vemss+v2ray 的基础上，增强了流量、账号的管理等功能。
  
+ #### 如果能帮助到你，请给我个`star`
+ 
  ## 简要视图
  服务器配置
  ![服务器](https://github.com/master-coder-ll/v2ray-web-manager/raw/master/static/admin_index.png)
