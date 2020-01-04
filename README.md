@@ -20,9 +20,18 @@
  ![管理员账号]( https://raw.githubusercontent.com/master-coder-ll/v2ray-web-manager/master/static/my-account.png)
 
 更多页面，请自己尝试。
+ 
  ## 开始使用 
  
-
+ ### 新手
+ 
+  [一步一跟着我从零安装](https://github.com/master-coder-ll/v2ray-web-manager/blob/master/step-by-step-install.md)
+  
+  [一步一跟着我从零配置网站](https://github.com/master-coder-ll/v2ray-web-manager/blob/master/step-by-step-conf.md)
+ 
+ ### 熟悉linux的用户
+ 
+ [安装简要](https://github.com/master-coder-ll/v2ray-web-manager/blob/master/old.md)
   
   ## 参数说明
   ### 服务器配置参数
