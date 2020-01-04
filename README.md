@@ -34,8 +34,10 @@
  [安装简要](https://github.com/master-coder-ll/v2ray-web-manager/blob/master/old.md)
 ### 维护
    java 不需要维护
+   
    数据库-默认情况下会在 `/opt/jar/db` 生成admin.db 定时保存就好
-   java日志-自动
+   
+   java日志-自动维护
 ### 优化
    //todo    
   ## 参数说明
