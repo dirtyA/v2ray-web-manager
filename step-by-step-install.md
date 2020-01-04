@@ -64,7 +64,7 @@
       # wget -c https://raw.githubusercontent.com/master-coder-ll/v2ray-web-manager/master/conf/proxy.properties
       # wget -c https://raw.githubusercontent.com/master-coder-ll/v2ray-web-manager/master/conf/config.json
        ```  
-      按自己的情况，配置admin/proxy 配置文件,可以下载到你电脑修改后在上传`/opt/jar/`,并且保持UTF-8的编码。
+      按自己的情况，配置admin/proxy 配置文件,可以下载到你电脑修改后在上传`/opt/v2ray-manager/`,并且保持UTF-8的编码。
       
       1. admin.properties 需要你手动配置的如下：
         
